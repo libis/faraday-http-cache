@@ -201,7 +201,8 @@ module Faraday
 
       return fetch(env) if entry.nil?
 
-      if entry.fresh?
+      force_validate = CGI.parse(env.url.query)['_force_validate']
+      if !force_validate && entry.fresh?
         response = entry.to_response(env)
         trace :fresh
       else
